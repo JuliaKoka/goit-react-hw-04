@@ -7,26 +7,42 @@ import css from "./SearchBar.module.css";
 
 const notify = () => toast("Please enter an image name!");
 
-export default function SearchBar({}) {
+export default function SearchBar({ onSubmit, setLoading, setError }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const form = event.target;
 
-    const value = form.elements.search.value;
+    const value = form.elements.search.value.trim();
 
-    if (value === "") {
-      {
-        notify();
-      }
-    } else {
-      console.log(value);
+    if (!value) {
+      notify();
+      return;
     }
 
-    const response = await axios.get(
-      "https://api.unsplash.com/photos/?client_id=dWvq-dBawTsMy2U-Qg8NlrlHG506RiMd5FokgNOn8DY"
-    );
-    console.log(response);
+    onSubmit(value, []);
+    setLoading(true);
+
+    try {
+      const response = await axios.get(
+        `https://api.unsplash.com/search/photos`,
+        {
+          params: {
+            query: value,
+            client_id: import.meta.env.VITE_API_KEY,
+            per_page: 12,
+          },
+        }
+      );
+
+      console.log(response.data);
+      onSubmit(value, response.data.results);
+    } catch (error) {
+      console.error("Something went wrong", error);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
 
     form.reset();
   };
