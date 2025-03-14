@@ -31,6 +31,7 @@ export default function SearchBar({ onSubmit, setLoading, setError }) {
             query: value,
             client_id: import.meta.env.VITE_API_KEY,
             per_page: 12,
+            page: 1,
           },
         }
       );
