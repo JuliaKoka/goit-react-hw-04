@@ -19,11 +19,10 @@ export default function App() {
   const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
 
-  const handleSearch = (value, results) => {
+  const handleSearch = (value) => {
     setSearchValue(value);
-    setImages(results);
+    setImages([]);
     setPage(1);
-    // setImages([]);
   };
 
   const handleLoading = (loadingStatus) => {
@@ -48,6 +47,7 @@ export default function App() {
       setLoading(true);
       try {
         const imagePage = await fetchInfo(searchValue, page);
+
         setImages((prevImages) => [...prevImages, ...imagePage]);
       } catch (error) {
         console.error("Something went wrong", error);

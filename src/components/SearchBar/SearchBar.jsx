@@ -21,15 +21,13 @@ export default function SearchBar({ onSubmit, setLoading, setError }) {
       return;
     }
 
-    onSubmit(value, []);
+    onSubmit(value);
     setLoading(true);
 
     try {
       const imageData = await fetchInfo(value);
 
       console.log("check", imageData);
-
-      onSubmit(value, imageData);
     } catch (error) {
       console.error("Something went wrong", error);
       setError(true);
