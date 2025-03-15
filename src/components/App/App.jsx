@@ -2,6 +2,7 @@ import css from "./App.module.css";
 
 import * as Spinners from "react-loader-spinner";
 import axios from "axios";
+import { fetchInfo } from "../../images-api";
 
 import SearchBar from "../SearchBar/SearchBar";
 
@@ -42,32 +43,18 @@ export default function App() {
     if (searchValue === "") {
       return;
     }
+
     async function fetchImages() {
       setLoading(true);
-
       try {
-        const response = await axios.get(
-          "https://api.unsplash.com/search/photos",
-          {
-            params: {
-              query: searchValue,
-              client_id: import.meta.env.VITE_API_KEY,
-              per_page: 12,
-              page: page, // теперь при изменении page загружаются новые картинки
-            },
-          }
-        );
-
-        console.log(response.data);
-        setImages((prevImages) => [...prevImages, ...response.data.results]); // добавляем новые картинки в список
+        const imagePage = await fetchInfo(searchValue, page);
+        setImages((prevImages) => [...prevImages, ...imagePage]);
       } catch (error) {
         console.error("Something went wrong", error);
-        setError(true);
       } finally {
         setLoading(false);
       }
     }
-
     fetchImages();
   }, [searchValue, page]);
 

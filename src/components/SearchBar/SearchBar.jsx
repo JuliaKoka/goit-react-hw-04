@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
+import { fetchInfo } from "../../images-api";
 
 import css from "./SearchBar.module.css";
 
@@ -24,20 +25,11 @@ export default function SearchBar({ onSubmit, setLoading, setError }) {
     setLoading(true);
 
     try {
-      const response = await axios.get(
-        `https://api.unsplash.com/search/photos`,
-        {
-          params: {
-            query: value,
-            client_id: import.meta.env.VITE_API_KEY,
-            per_page: 12,
-            page: 1,
-          },
-        }
-      );
+      const imageData = await fetchInfo(value);
 
-      console.log(response.data);
-      onSubmit(value, response.data.results);
+      console.log("check", imageData);
+
+      onSubmit(value, imageData);
     } catch (error) {
       console.error("Something went wrong", error);
       setError(true);
