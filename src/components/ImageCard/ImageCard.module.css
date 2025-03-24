@@ -1,0 +1,7 @@
+.galleryImage {
+  height: 230px;
+  width: 360px;
+  overflow: hidden;
+  display: block;
+  max-width: 100%;
+}

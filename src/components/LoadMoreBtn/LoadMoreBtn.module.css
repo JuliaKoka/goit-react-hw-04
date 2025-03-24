@@ -1,0 +1,8 @@
+.position {
+  margin: 0 auto;
+  border: none;
+}
+
+.position:focus {
+  outline: none;
+}
