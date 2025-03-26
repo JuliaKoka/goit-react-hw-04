@@ -24,11 +24,13 @@ export default function App() {
   const [page, setPage] = useState(1);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isLastPage, setIsLastPage] = useState(false);
 
   const handleSearch = (value) => {
     setSearchValue(value);
     setImages([]);
     setPage(1);
+    setIsLastPage(false);
   };
 
   const handleLoading = (loadingStatus) => {
@@ -55,6 +57,10 @@ export default function App() {
         const imagePage = await fetchInfo(searchValue, page);
 
         setImages((prevImages) => [...prevImages, ...imagePage]);
+
+        if (imagePage.length < 12) {
+          setIsLastPage(true);
+        }
       } catch (error) {
         console.error("Something went wrong", error);
       } finally {
@@ -68,6 +74,7 @@ export default function App() {
     setSelectedImage(imageUrl);
 
     openModal();
+    console.log("Открытие модалки");
   };
 
   function openModal() {
@@ -76,6 +83,7 @@ export default function App() {
 
   function closeModal() {
     setIsOpen(false);
+    console.log("Closing модалки");
   }
 
   return (
@@ -103,7 +111,10 @@ export default function App() {
           message={"Error has occurred - please refresh this page!"}
         />
       )}
-      {images.length > 0 && <LoadMoreBtn handleLoadMore={handlePage} />}
+      {/* {images.length > 0 && <LoadMoreBtn handleLoadMore={handlePage} />} */}
+      {images.length > 0 && !isLastPage && (
+        <LoadMoreBtn handleLoadMore={handlePage} />
+      )}
     </div>
   );
 }

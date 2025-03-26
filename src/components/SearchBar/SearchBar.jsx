@@ -7,6 +7,8 @@ import { fetchInfo } from "../../images-api";
 import css from "./SearchBar.module.css";
 
 const notify = () => toast("Please enter an image name!");
+const notifyError = () =>
+  toast.error("No images at your request! Please look for something else.");
 
 export default function SearchBar({ onSubmit, setLoading, setError }) {
   const handleSubmit = async (event) => {
@@ -27,6 +29,11 @@ export default function SearchBar({ onSubmit, setLoading, setError }) {
     try {
       const imageData = await fetchInfo(value);
 
+      if (imageData.length === 0) {
+        notifyError();
+        console.log("it's empty!");
+      }
+
       console.log("check", imageData);
     } catch (error) {
       console.error("Something went wrong", error);
@@ -38,7 +45,7 @@ export default function SearchBar({ onSubmit, setLoading, setError }) {
     form.reset();
   };
   return (
-    <header>
+    <header className={css.header}>
       <form className={css.container} onSubmit={handleSubmit}>
         <input
           className={css.input}

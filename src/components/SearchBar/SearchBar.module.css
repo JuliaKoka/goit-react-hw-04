@@ -1,3 +1,13 @@
+.header {
+  position: fixed;
+  top: 0px;
+
+  width: 100%;
+  background-color: #213547;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
 .container {
   margin: 0 auto;
   display: flex;
@@ -10,6 +20,7 @@
   width: 360px;
   border-radius: 6px;
   outline: none;
+  padding-left: 15px;
 }
 
 .button:focus {

@@ -7,7 +7,7 @@ const customStyles = {
     backgroundColor: "black",
   },
   content: {
-    top: "50%",
+    top: "50vh",
     left: "50%",
     right: "auto",
     bottom: "auto",
